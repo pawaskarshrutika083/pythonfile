@@ -1,0 +1,27 @@
+copy all ambari folder
+1.open su
+yum -y install httpd*
+systemctl start httpd
+systemctl enable httpd
+2.tar -xvf ambari-2.7.3.0-centos
+3.cp -R ambari /var/www/html/
+4.cp /var/www/html/amabri/centos7/2.7.3.0-139/ambari.repo /etc/yum.repos.d/
+5.vi /etc/yum.repos.d/amabri.repo
+edit- 
+gpgcheck=0
+#gpgkey
+change path baseurl=http://node2/ambari/centos7/2.7.3.0-139/
+6.createrepo /var/www/html/ambari/centos7/7.2.3.0-139/
+
+
+ambari-server install
+
+ambari-agent install
+
+
+
+
+error-500 error
+chmode 777 /var/run/ambari-server/
+
+https://community.cloudera.com/t5/Community-Articles/ambari-2-7-3-Ambari-writes-Empty-baseurl-values-written-to/ta-p/249314 
