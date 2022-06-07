@@ -1,0 +1,105 @@
+    1  yum update
+    2  ip a
+    3  clear
+    6  systemctl stop firewalld
+    8  systemctl disable firewalld
+    9  setenforce 0
+   10  vi /etc/selinux/config
+   11  reboot
+   12  hostnamectl set-hostname node3
+   13  vi /etc/hosts
+   15  systemctl status firewalld
+   16  getenforce
+   19  iptables -L
+   20  ip r
+   21  nmtui
+   22  ip a
+   24  lsblk
+   25  cd /mnt
+   26  ls
+   27  mkdir anuj
+   28  cd
+   30  yum -y install yum-utils
+   31  wget -P /etc/yum.repos.d https://xcat.org/files/xcat/repos/yum/latest/xcat-core/xcat-core.repo
+   32  yum install wget
+   33  wget -P /etc/yum.repos.d https://xcat.org/files/xcat/repos/yum/latest/xcat-core/xcat-core.repo
+   34  wget -P /etc/yum.repos.d https://xcat.org/files/xcat/repos/yum/xcat-dep/rh7/x86_64/xcat-dep.repo
+   35  yum install ohpc-base xCAT
+   36   . /etc/profile.d/xcat.sh
+   37  lsxcatd -a
+   38  lsblk
+   39  mount /dev/sr0 /mnt/anuj/
+   40  df -Th
+   43  copycds /mnt/anuj/CentOS-7-x86_64-DVD-2009.iso [open new terminal click on home & copy centos file dekstop to destination ]
+   46  cd /
+   47  ls
+   49  copycds CentOS-7-x86_64-DVD-2009.iso
+   50  lsdef -t osimage
+   51  chdef -t site dhcpinterfaces="ens37"
+   53  tabdump site
+   54  chdef -t site master="192.168.50.100"
+   55  tabdump site
+   56  chdef -t site domain="anuj.com"
+   57  tabdump site
+   59  genimage centos7.9-x86_64-netboot-compute
+   60  cd /install/netboot/centos7.9/x86_64/compute/rootimg/
+   61  cd ..
+   62  ls
+   63  ll
+   65  lsdef -t osimage centos7.9-x86_64-netboot-compute
+   68  cd /opt/xcat/share/xcat/netboot/centos/
+   69  cat /opt/xcat/share/xcat/netboot/centos/compute.centos7.pkglist
+   71  tabdump networks
+   72  vi /etc/dhcp/dhcpd.conf
+   73  makedhcp -n
+   74  vi /etc/dhcp/dhcpd.conf
+   75  cd
+   80  lsxcatd -a
+   81  lsdef -t osimage centos7.9-x86_64-netboot-compute
+   85  cd /install/netboot/centos7.9/x86_64/compute
+   87  cd rootimg/
+   88  ll
+   89  systemctl status xcatd
+   90  cd /proc
+   91  ls
+   92  cd /install/netboot/centos7.9/x86_64/compute/rootimg/proc/
+   93  ls
+   94  export CHROOT=/install/netboot/centos7.9/x86_64/compute/rootimg/
+   95  vi /etc/exports
+   96  env
+   97  echo $CHROOT
+   98  cd
+  101  chroot $CHROOT
+  101  exit
+  102  systemctl status httpd
+  103  yum-config-manager --installroot=$CHROOT --enable base
+  105  yum --installroot=$CHROOT install chrony
+  109  yum --installroot=$CHROOT install httpd
+  110  yum --installroot=$CHROOT install ntpd
+  111  yum --installroot=$CHROOT install ntp
+  112  chroot $CHROOT
+  112  exit
+  113  mkdir -p /install/custom/netboot
+  114  chdef -t osimage -o centos7.9-x86_64-netboot-compute synclists="/install/custom/netboot/compute.synclist
+  115  chdef -t osimage -o centos7.9-x86_64-netboot-compute synclists="/install/custom/netboot/compute.synclist"
+  116  echo "/etc/passwd -> /etc/passwd" > /install/custom/netboot/compute.synclist
+  117  echo "/etc/group -> /etc/group" >> /install/custom/netboot/compute.synclist
+  118  echo "/etc/shadow -> /etc/shadow" >> /install/custom/netboot/compute.synclist
+  123  cat /install/custom/netboot/compute.synclist
+  127  packimage centos7.9-x86_64-netboot-compute
+  128  cd /install/netboot/centos7.9/x86_64/compute/rootimg
+  129  ls
+  134  cd /install/netboot/centos7.9/x86_64/compute/
+  136  cd
+  138  mkdef -t node node4 groups=compute,all ip=192.168.50.200 mac=00:0C:29:2D:3B:B3 netboot=xnba
+  139  mkdef -t node node5 groups=compute,all ip=192.168.50.201 mac=00:0C:29:FE:4C:53 netboot=xnba
+  141  tabdump site
+  143  lsdef node4
+  144  lsdef node5
+  145  vi /var/lib/dhcpd/dhcpd.leases
+  147  makdhcp -n
+  149  makehosts
+  150  makedns
+  151  cat /etc/hosts
+  167  nodeset compute osimage=centos7.9-x86_64-netboot-compute
+  168  vi /var/lib/dhcpd/dhcpd.leases
